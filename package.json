@@ -16,7 +16,10 @@
     "test:coverage": "jest --coverage",
     "prepare": "husky",
     "pre-commit": "lint-staged",
-    "validate": "npm run type-check && npm run lint && npm run test"
+    "validate": "npm run type-check && npm run lint && npm run test",
+    "prepare-release": "./scripts/prepare-release.sh",
+    "ios:release": "react-native run-ios --configuration Release",
+    "screenshots": "mkdir -p screenshots/iphone-6.9 screenshots/iphone-6.7 screenshots/iphone-6.5 && echo 'Screenshot folders created! Run the app and take screenshots.'"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.82.0",
