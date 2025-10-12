@@ -33,10 +33,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>E Corp uses your location to show nearby dealership locations and optimize inventory routing.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>E Corp uses the camera to scan part barcodes for quick inventory management.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>E Corp uses your location to show nearby dealership locations and optimize inventory routing.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
