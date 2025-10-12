@@ -1,14 +1,12 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import {UserRole} from '../../types';
-import Button from '../../components/Button';
 import Card from '../../components/Card';
 import {colors, spacing, typography} from '../../styles/theme';
 
 const LoginScreen: React.FC = () => {
   const {login} = useAuth();
-  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
 
   const roles = [
     {
@@ -43,48 +41,40 @@ const LoginScreen: React.FC = () => {
     },
   ];
 
-  const handleLogin = () => {
-    if (selectedRole) {
-      const roleName = roles.find(r => r.id === selectedRole)?.title || '';
-      login(selectedRole, roleName);
-    }
+  const handleRoleSelect = (roleId: UserRole) => {
+    const roleName = roles.find(r => r.id === roleId)?.title || '';
+    login(roleId, roleName);
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.logo}>E Corp</Text>
-          <Text style={styles.tagline}>Electric Vehicle Excellence</Text>
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
+      <ScrollView style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.header}>
+            <Text style={styles.logo}>E Corp</Text>
+            <Text style={styles.tagline}>Electric Vehicle Excellence</Text>
+          </View>
+
+          <Text style={styles.subtitle}>Choose your role to access your workspace</Text>
+
+          <View style={styles.rolesContainer}>
+            {roles.map(role => (
+              <TouchableOpacity
+                key={role.id}
+                onPress={() => handleRoleSelect(role.id)}
+                activeOpacity={0.7}>
+                <Card style={styles.roleCard}>
+                  <Text style={styles.roleIcon}>{role.icon}</Text>
+                  <Text style={styles.roleTitle}>{role.title}</Text>
+                  <Text style={styles.roleDescription}>{role.description}</Text>
+                </Card>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-
-        <Text style={styles.title}>Select Your Role</Text>
-        <Text style={styles.subtitle}>Choose your role to access your workspace</Text>
-
-        <View style={styles.rolesContainer}>
-          {roles.map(role => (
-            <TouchableOpacity
-              key={role.id}
-              onPress={() => setSelectedRole(role.id)}
-              activeOpacity={0.7}>
-              <Card style={[styles.roleCard, selectedRole === role.id && styles.roleCardSelected]}>
-                <Text style={styles.roleIcon}>{role.icon}</Text>
-                <Text style={styles.roleTitle}>{role.title}</Text>
-                <Text style={styles.roleDescription}>{role.description}</Text>
-              </Card>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <Button
-          title="Continue"
-          onPress={handleLogin}
-          disabled={!selectedRole}
-          size="large"
-          style={styles.button}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -95,30 +85,26 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: spacing.lg,
+    paddingTop: spacing.xxl + spacing.lg,
   },
   header: {
     alignItems: 'center',
-    marginTop: spacing.xxl,
+    marginTop: spacing.lg,
     marginBottom: spacing.xl,
   },
   logo: {
     ...typography.h1,
     color: colors.primary,
     fontWeight: '800',
-    fontSize: 48,
+    fontSize: 42,
   },
   tagline: {
     ...typography.caption,
     color: colors.textSecondary,
     marginTop: spacing.xs,
   },
-  title: {
-    ...typography.h2,
-    color: colors.textPrimary,
-    marginBottom: spacing.sm,
-  },
   subtitle: {
-    ...typography.body,
+    ...typography.bodyBold,
     color: colors.textSecondary,
     marginBottom: spacing.lg,
   },
@@ -130,11 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.lg,
     borderWidth: 2,
-    borderColor: colors.transparent,
-  },
-  roleCardSelected: {
-    borderColor: colors.primary,
-    backgroundColor: colors.primaryLight + '10',
+    borderColor: colors.border,
   },
   roleIcon: {
     fontSize: 48,
@@ -149,9 +131,6 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.textSecondary,
     textAlign: 'center',
-  },
-  button: {
-    marginBottom: spacing.xl,
   },
 });
 

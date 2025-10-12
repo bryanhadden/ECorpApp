@@ -1,21 +1,21 @@
-// Facebook-inspired color palette
+// Modern color palette
 export const colors = {
-  primary: '#1877F2', // Facebook blue
-  primaryDark: '#166FE5',
-  primaryLight: '#4E9AF1',
-  secondary: '#42B72A', // Facebook green
-  background: '#F0F2F5',
+  primary: '#3B82F6', // Modern bright blue
+  primaryDark: '#2563EB',
+  primaryLight: '#60A5FA',
+  secondary: '#8B5CF6', // Purple accent
+  background: '#F8FAFC',
   white: '#FFFFFF',
-  black: '#050505',
-  textPrimary: '#050505',
-  textSecondary: '#65676B',
-  border: '#CED0D4',
+  black: '#0F172A',
+  textPrimary: '#1E293B',
+  textSecondary: '#64748B',
+  border: '#E2E8F0',
   transparent: 'transparent',
-  error: '#F02849',
-  success: '#42B72A',
-  warning: '#FFB800',
+  error: '#EF4444',
+  success: '#10B981',
+  warning: '#F59E0B',
   cardBackground: '#FFFFFF',
-  shadow: '#000000',
+  shadow: '#0F172A',
 };
 
 export const spacing = {
