@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+build/
+dist/
+coverage/
+.bundle/
+
+# Native
+android/
+ios/
+*.pbxproj
+*.xcworkspace
+*.xcodeproj
+
+# Config files
+metro.config.js
+babel.config.js
+jest.config.js
+react-native.config.js
+
+# Misc
+.DS_Store
+*.log
+.env
+.env.local
+.env.*.local
+
