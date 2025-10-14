@@ -1,20 +1,21 @@
 import React, {useState} from 'react';
-import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import {colors, spacing, typography} from '../../styles/theme';
-import {mockSales} from '../../utils/mockData';
+import {useSales} from '../../hooks/useMLData';
 
 const SalesDashboard: React.FC = () => {
   const {user, logout} = useAuth();
+  const {sales, loading, usingML} = useSales();
   const [showNewSale, setShowNewSale] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [model, setModel] = useState('');
   const [price, setPrice] = useState('');
 
-  const userSales = mockSales.filter(sale => sale.salesPerson === user?.name);
+  const userSales = sales.filter(sale => sale.salesPerson === user?.name);
 
   const totalSales = userSales.reduce((sum, sale) => sum + sale.price, 0);
 
@@ -47,7 +48,7 @@ const SalesDashboard: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcome}>Sales Dashboard</Text>
+          <Text style={styles.welcome}>Sales Dashboard {usingML ? '(ML)' : ''}</Text>
           <Text style={styles.userName}>{user?.name}</Text>
           <Text style={styles.location}>{user?.location}</Text>
         </View>
@@ -56,7 +57,12 @@ const SalesDashboard: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <ScrollView style={styles.content}>
         <View style={styles.statsContainer}>
           <Card style={styles.statCard}>
             <Text style={styles.statValue}>{userSales.length}</Text>
@@ -149,6 +155,7 @@ const SalesDashboard: React.FC = () => {
           ))}
         </View>
       </ScrollView>
+      )}
     </View>
   );
 };
@@ -157,6 +164,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     backgroundColor: colors.primary,

@@ -1,0 +1,14 @@
+{
+  "trained_at": "2025-10-14T15:15:10.880331",
+  "sales_model": {
+    "lookback": 6,
+    "training_samples": 28
+  },
+  "parts_model": {
+    "training_samples": 272
+  },
+  "datasets": {
+    "monthly_aggregates": 34,
+    "parts_inventory": 272
+  }
+}

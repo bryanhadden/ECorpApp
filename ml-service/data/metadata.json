@@ -1,0 +1,109 @@
+{
+  "generated_at": "2025-10-14T15:15:01.510248",
+  "date_range": {
+    "start": "2023-01-01T00:00:00",
+    "end": "2025-10-13T00:00:00"
+  },
+  "dealerships": [
+    {
+      "name": "New York Dealership",
+      "location": "New York, NY"
+    },
+    {
+      "name": "Texas Dealership",
+      "location": "Austin, TX"
+    },
+    {
+      "name": "Florida Dealership",
+      "location": "Miami, FL"
+    },
+    {
+      "name": "California Dealership",
+      "location": "Los Angeles, CA"
+    },
+    {
+      "name": "Illinois Dealership",
+      "location": "Chicago, IL"
+    }
+  ],
+  "vehicle_models": [
+    {
+      "model": "E-Sedan Pro",
+      "base_price": 45000
+    },
+    {
+      "model": "E-SUV Elite",
+      "base_price": 62000
+    },
+    {
+      "model": "E-Compact City",
+      "base_price": 32000
+    },
+    {
+      "model": "E-Truck Power",
+      "base_price": 75000
+    },
+    {
+      "model": "E-Sports GT",
+      "base_price": 95000
+    }
+  ],
+  "parts": [
+    {
+      "id": "P001",
+      "name": "Battery Pack",
+      "sku": "BAT-5000",
+      "category": "Power",
+      "price": 8500
+    },
+    {
+      "id": "P002",
+      "name": "Electric Motor",
+      "sku": "MOT-3000",
+      "category": "Drivetrain",
+      "price": 12000
+    },
+    {
+      "id": "P003",
+      "name": "Charging Port",
+      "sku": "CHG-200",
+      "category": "Electrical",
+      "price": 450
+    },
+    {
+      "id": "P004",
+      "name": "Display Console",
+      "sku": "DSP-100",
+      "category": "Interior",
+      "price": 1200
+    },
+    {
+      "id": "P005",
+      "name": "Brake System",
+      "sku": "BRK-400",
+      "category": "Safety",
+      "price": 2500
+    },
+    {
+      "id": "P006",
+      "name": "Tire Set",
+      "sku": "TIR-800",
+      "category": "Wheels",
+      "price": 1800
+    },
+    {
+      "id": "P007",
+      "name": "Suspension Kit",
+      "sku": "SUS-600",
+      "category": "Chassis",
+      "price": 3200
+    },
+    {
+      "id": "P008",
+      "name": "HVAC Unit",
+      "sku": "HVC-300",
+      "category": "Climate",
+      "price": 1500
+    }
+  ]
+}

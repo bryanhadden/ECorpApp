@@ -1,15 +1,17 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import {colors, spacing, typography} from '../../styles/theme';
-import {mockParts, mockScanRecords} from '../../utils/mockData';
+import {useParts} from '../../hooks/useMLData';
+import {mockScanRecords} from '../../utils/mockData';
 
 const WarehouseDashboard: React.FC = () => {
   const navigation = useNavigation();
   const {user, logout} = useAuth();
+  const {parts, loading, usingML} = useParts();
 
   const todayScans = mockScanRecords.filter(record => {
     const today = new Date();
@@ -27,7 +29,7 @@ const WarehouseDashboard: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcome}>Welcome back,</Text>
+          <Text style={styles.welcome}>Welcome back, {usingML ? '(ML)' : ''}</Text>
           <Text style={styles.userName}>{user?.name}</Text>
           <Text style={styles.location}>{user?.location}</Text>
         </View>
@@ -36,10 +38,15 @@ const WarehouseDashboard: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.statsContainer}>
           <Card style={styles.statCard}>
-            <Text style={styles.statValue}>{mockParts.length}</Text>
+            <Text style={styles.statValue}>{parts.length}</Text>
             <Text style={styles.statLabel}>Parts in Stock</Text>
           </Card>
           <Card style={styles.statCard}>
@@ -100,7 +107,7 @@ const WarehouseDashboard: React.FC = () => {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Parts Inventory</Text>
-          {mockParts.map(part => (
+          {parts.map(part => (
             <Card key={part.id} style={styles.partCard}>
               <View style={styles.partHeader}>
                 <View style={styles.partInfo}>
@@ -120,6 +127,7 @@ const WarehouseDashboard: React.FC = () => {
           ))}
         </View>
       </ScrollView>
+      )}
     </View>
   );
 };
@@ -128,6 +136,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     backgroundColor: colors.primary,

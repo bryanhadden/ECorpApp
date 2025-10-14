@@ -1,6 +1,7 @@
 node_modules/
 ios/
 android/
+ml-service/
 __mocks__/
 jest.setup.js
 jest.config.js

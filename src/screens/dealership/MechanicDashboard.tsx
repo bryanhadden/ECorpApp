@@ -1,17 +1,18 @@
 import React from 'react';
-import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import {colors, spacing, typography} from '../../styles/theme';
-import {mockServiceTickets} from '../../utils/mockData';
+import {useServiceTickets} from '../../hooks/useMLData';
 
 const MechanicDashboard: React.FC = () => {
   const {user, logout} = useAuth();
+  const {tickets, loading, usingML} = useServiceTickets();
 
-  const myTickets = mockServiceTickets.filter(ticket => ticket.assignedMechanic === user?.name);
+  const myTickets = tickets.filter(ticket => ticket.assignedMechanic === user?.name);
 
-  const openTickets = mockServiceTickets.filter(ticket => ticket.status === 'open');
+  const openTickets = tickets.filter(ticket => ticket.status === 'open');
 
   const handleLogout = () => {
     logout();
@@ -46,7 +47,7 @@ const MechanicDashboard: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcome}>Service Bay</Text>
+          <Text style={styles.welcome}>Service Bay {usingML ? '(ML)' : ''}</Text>
           <Text style={styles.userName}>{user?.name}</Text>
           <Text style={styles.location}>{user?.location}</Text>
         </View>
@@ -55,7 +56,12 @@ const MechanicDashboard: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <ScrollView style={styles.content}>
         <View style={styles.statsContainer}>
           <Card style={styles.statCard}>
             <Text style={styles.statValue}>{myTickets.length}</Text>
@@ -161,6 +167,7 @@ const MechanicDashboard: React.FC = () => {
           </Card>
         </View>
       </ScrollView>
+      )}
     </View>
   );
 };
@@ -169,6 +176,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     backgroundColor: colors.primary,

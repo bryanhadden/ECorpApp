@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import {colors, spacing, typography} from '../../styles/theme';
-import {mockParts} from '../../utils/mockData';
+import {useParts} from '../../hooks/useMLData';
 
 interface OrderItem {
   partId: string;
@@ -18,11 +18,12 @@ interface OrderItem {
 const OrderPartsScreen: React.FC = () => {
   const navigation = useNavigation();
   const {user} = useAuth();
+  const {parts, loading} = useParts();
   const [selectedParts, setSelectedParts] = useState<OrderItem[]>([]);
   const [quantities, setQuantities] = useState<{[key: string]: string}>({});
 
   const handleAddPart = (partId: string) => {
-    const part = mockParts.find(p => p.id === partId);
+    const part = parts.find(p => p.id === partId);
     const quantity = parseInt(quantities[partId] || '0', 10);
 
     if (!part || quantity <= 0) {
@@ -85,7 +86,12 @@ const OrderPartsScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.content}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <ScrollView style={styles.content}>
         <Card style={styles.infoCard}>
           <Text style={styles.infoTitle}>📦 Order from California HQ</Text>
           <Text style={styles.infoText}>Requesting as: {user?.name}</Text>
@@ -94,7 +100,7 @@ const OrderPartsScreen: React.FC = () => {
 
         <Text style={styles.sectionTitle}>Available Parts</Text>
 
-        {mockParts.map(part => (
+        {parts.map(part => (
           <Card key={part.id} style={styles.partCard}>
             <View style={styles.partHeader}>
               <View style={styles.partInfo}>
@@ -163,6 +169,7 @@ const OrderPartsScreen: React.FC = () => {
           </>
         )}
       </ScrollView>
+      )}
     </View>
   );
 };
@@ -171,6 +178,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     flex: 1,

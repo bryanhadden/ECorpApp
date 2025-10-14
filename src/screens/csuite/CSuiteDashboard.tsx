@@ -1,13 +1,13 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import {colors, spacing, typography} from '../../styles/theme';
-import {mockAnalytics} from '../../utils/mockData';
+import {useAnalytics} from '../../hooks/useMLData';
 
 const CSuiteDashboard: React.FC = () => {
   const {user, logout} = useAuth();
-  const analytics = mockAnalytics;
+  const {analytics, loading, usingML, refresh} = useAnalytics();
 
   const handleLogout = () => {
     logout();
@@ -28,14 +28,27 @@ const CSuiteDashboard: React.FC = () => {
         <View>
           <Text style={styles.welcome}>Executive Dashboard</Text>
           <Text style={styles.userName}>{user?.name}</Text>
-          <Text style={styles.subtitle}>E Corp Analytics</Text>
+          <Text style={styles.subtitle}>
+            E Corp Analytics {usingML ? '(ML Powered)' : '(Offline)'}
+          </Text>
         </View>
-        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity onPress={refresh} style={styles.refreshButton}>
+            <Text style={styles.refreshText}>↻</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <ScrollView style={styles.content}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={styles.loadingText}>Loading analytics...</Text>
+        </View>
+      ) : (
+        <ScrollView style={styles.content}>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Company Overview</Text>
 
@@ -201,6 +214,7 @@ const CSuiteDashboard: React.FC = () => {
           </Card>
         </View>
       </ScrollView>
+      )}
     </View>
   );
 };
@@ -209,6 +223,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.xl,
+  },
+  loadingText: {
+    ...typography.body,
+    color: colors.textSecondary,
+    marginTop: spacing.md,
   },
   header: {
     backgroundColor: colors.primary,
@@ -233,6 +258,17 @@ const styles = StyleSheet.create({
     color: colors.white,
     opacity: 0.8,
     marginTop: spacing.xs,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  refreshButton: {
+    padding: spacing.sm,
+  },
+  refreshText: {
+    fontSize: 24,
+    color: colors.white,
   },
   logoutButton: {
     padding: spacing.sm,

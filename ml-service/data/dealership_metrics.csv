@@ -1,0 +1,171 @@
+month,dealership,location,sales_amount,units_sold,parts_cost,gross_margin
+2023-01,New York Dealership,"New York, NY",648555.23,14,138189.31,78.69
+2023-01,Texas Dealership,"Austin, TX",783976.19,14,178948.93,77.17
+2023-01,Florida Dealership,"Miami, FL",603623.37,11,127278.49,78.91
+2023-01,California Dealership,"Los Angeles, CA",948898.56,18,209839.65,77.89
+2023-01,Illinois Dealership,"Chicago, IL",559931.53,12,128018.49,77.14
+2023-02,New York Dealership,"New York, NY",858093.05,16,213392.76,75.13
+2023-02,Texas Dealership,"Austin, TX",306131.58,5,62449.11,79.6
+2023-02,Florida Dealership,"Miami, FL",761336.53,13,169793.81,77.7
+2023-02,California Dealership,"Los Angeles, CA",593864.21,12,130539.4,78.02
+2023-02,Illinois Dealership,"Chicago, IL",531095.27,10,128106.59,75.88
+2023-03,New York Dealership,"New York, NY",1200379.97,21,294110.93,75.5
+2023-03,Texas Dealership,"Austin, TX",824649.66,14,202328.34,75.46
+2023-03,Florida Dealership,"Miami, FL",1046283.65,21,228881.84,78.12
+2023-03,California Dealership,"Los Angeles, CA",1408539.06,31,303163.75,78.48
+2023-03,Illinois Dealership,"Chicago, IL",764329.5,15,170030.34,77.75
+2023-04,New York Dealership,"New York, NY",1769425.92,33,384318.1,78.28
+2023-04,Texas Dealership,"Austin, TX",668999.27,13,157845.39,76.41
+2023-04,Florida Dealership,"Miami, FL",969031.34,20,204154.12,78.93
+2023-04,California Dealership,"Los Angeles, CA",1324321.34,25,308479.74,76.71
+2023-04,Illinois Dealership,"Chicago, IL",542543.55,9,133655.27,75.37
+2023-05,New York Dealership,"New York, NY",1127526.72,21,241285.85,78.6
+2023-05,Texas Dealership,"Austin, TX",1114129.01,22,260532.98,76.62
+2023-05,Florida Dealership,"Miami, FL",1287038.3,23,266646.09,79.28
+2023-05,California Dealership,"Los Angeles, CA",1897661.7,35,391049.62,79.39
+2023-05,Illinois Dealership,"Chicago, IL",1349035.71,27,277607.57,79.42
+2023-06,New York Dealership,"New York, NY",1153739.51,20,238739.17,79.31
+2023-06,Texas Dealership,"Austin, TX",1306972.76,24,275520.63,78.92
+2023-06,Florida Dealership,"Miami, FL",1874327.89,31,427612.02,77.19
+2023-06,California Dealership,"Los Angeles, CA",1551784.55,32,369866.73,76.17
+2023-06,Illinois Dealership,"Chicago, IL",1201794.26,24,247981.65,79.37
+2023-07,New York Dealership,"New York, NY",1973358.35,38,480514.23,75.65
+2023-07,Texas Dealership,"Austin, TX",1560931.58,28,377957.44,75.79
+2023-07,Florida Dealership,"Miami, FL",890766.56,18,210549.96,76.36
+2023-07,California Dealership,"Los Angeles, CA",1498858.19,30,331694.75,77.87
+2023-07,Illinois Dealership,"Chicago, IL",948488.44,18,189771.54,79.99
+2023-08,New York Dealership,"New York, NY",896350.01,20,212200.33,76.33
+2023-08,Texas Dealership,"Austin, TX",1197059.92,22,292021.94,75.61
+2023-08,Florida Dealership,"Miami, FL",1045242.49,20,226571.28,78.32
+2023-08,California Dealership,"Los Angeles, CA",1728301.21,33,407705.18,76.41
+2023-08,Illinois Dealership,"Chicago, IL",1227414.0,24,249290.71,79.69
+2023-09,New York Dealership,"New York, NY",1213766.05,21,285811.25,76.45
+2023-09,Texas Dealership,"Austin, TX",896113.22,18,182283.25,79.66
+2023-09,Florida Dealership,"Miami, FL",972611.11,20,223077.42,77.06
+2023-09,California Dealership,"Los Angeles, CA",1477961.7,29,339750.38,77.01
+2023-09,Illinois Dealership,"Chicago, IL",705312.03,13,151718.14,78.49
+2023-10,New York Dealership,"New York, NY",1175887.29,22,239829.43,79.6
+2023-10,Texas Dealership,"Austin, TX",858961.13,16,212564.31,75.25
+2023-10,Florida Dealership,"Miami, FL",721480.2,14,163616.46,77.32
+2023-10,California Dealership,"Los Angeles, CA",1172271.45,22,268435.98,77.1
+2023-10,Illinois Dealership,"Chicago, IL",613655.04,13,141601.54,76.92
+2023-11,New York Dealership,"New York, NY",927056.64,19,226713.92,75.54
+2023-11,Texas Dealership,"Austin, TX",607881.75,11,123407.77,79.7
+2023-11,Florida Dealership,"Miami, FL",745553.02,13,182410.27,75.53
+2023-11,California Dealership,"Los Angeles, CA",942491.51,18,199792.96,78.8
+2023-11,Illinois Dealership,"Chicago, IL",1184639.1,19,241544.97,79.61
+2023-12,New York Dealership,"New York, NY",651848.91,15,151791.68,76.71
+2023-12,Texas Dealership,"Austin, TX",572354.29,12,142429.67,75.12
+2023-12,Florida Dealership,"Miami, FL",631213.53,12,128049.3,79.71
+2023-12,California Dealership,"Los Angeles, CA",1206175.59,20,266934.0,77.87
+2023-12,Illinois Dealership,"Chicago, IL",725380.59,16,164290.89,77.35
+2024-01,New York Dealership,"New York, NY",810969.42,15,172416.92,78.74
+2024-01,Texas Dealership,"Austin, TX",529868.82,12,132013.43,75.09
+2024-01,Florida Dealership,"Miami, FL",1012475.44,21,234943.06,76.8
+2024-01,California Dealership,"Los Angeles, CA",775700.67,16,187888.3,75.78
+2024-01,Illinois Dealership,"Chicago, IL",639226.95,11,141134.2,77.92
+2024-02,New York Dealership,"New York, NY",983251.45,17,214051.67,78.23
+2024-02,Texas Dealership,"Austin, TX",878736.4,17,200051.28,77.23
+2024-02,Florida Dealership,"Miami, FL",935332.42,16,207422.99,77.82
+2024-02,California Dealership,"Los Angeles, CA",1272140.64,24,299903.85,76.43
+2024-02,Illinois Dealership,"Chicago, IL",1141078.65,21,243381.7,78.67
+2024-03,New York Dealership,"New York, NY",1336076.03,28,297249.6,77.75
+2024-03,Texas Dealership,"Austin, TX",1505189.33,29,368405.08,75.52
+2024-03,Florida Dealership,"Miami, FL",1161581.81,20,276230.42,76.22
+2024-03,California Dealership,"Los Angeles, CA",1663442.11,27,346667.17,79.16
+2024-03,Illinois Dealership,"Chicago, IL",1335343.07,23,326282.05,75.57
+2024-04,New York Dealership,"New York, NY",1370775.98,25,314525.69,77.05
+2024-04,Texas Dealership,"Austin, TX",1151812.31,21,269483.03,76.6
+2024-04,Florida Dealership,"Miami, FL",1569873.14,28,337071.9,78.53
+2024-04,California Dealership,"Los Angeles, CA",1842123.85,34,409093.73,77.79
+2024-04,Illinois Dealership,"Chicago, IL",1388033.56,27,333600.85,75.97
+2024-05,New York Dealership,"New York, NY",1564835.01,30,338839.69,78.35
+2024-05,Texas Dealership,"Austin, TX",807875.71,17,168242.61,79.17
+2024-05,Florida Dealership,"Miami, FL",1448084.53,27,317007.78,78.11
+2024-05,California Dealership,"Los Angeles, CA",1570657.87,31,319567.52,79.65
+2024-05,Illinois Dealership,"Chicago, IL",1082600.96,22,255377.8,76.41
+2024-06,New York Dealership,"New York, NY",1647703.9,34,341712.86,79.26
+2024-06,Texas Dealership,"Austin, TX",1351176.57,24,289498.09,78.57
+2024-06,Florida Dealership,"Miami, FL",1510650.81,28,368680.45,75.59
+2024-06,California Dealership,"Los Angeles, CA",1701365.28,30,386252.25,77.3
+2024-06,Illinois Dealership,"Chicago, IL",966497.5,20,208828.14,78.39
+2024-07,New York Dealership,"New York, NY",2145757.71,38,487909.56,77.26
+2024-07,Texas Dealership,"Austin, TX",1461293.6,25,308207.11,78.91
+2024-07,Florida Dealership,"Miami, FL",1561832.98,30,314332.41,79.87
+2024-07,California Dealership,"Los Angeles, CA",1535249.2,33,353393.83,76.98
+2024-07,Illinois Dealership,"Chicago, IL",1100099.7,21,259300.43,76.43
+2024-08,New York Dealership,"New York, NY",1539839.76,27,375704.1,75.6
+2024-08,Texas Dealership,"Austin, TX",1428240.63,26,340769.88,76.14
+2024-08,Florida Dealership,"Miami, FL",1348886.88,25,332276.55,75.37
+2024-08,California Dealership,"Los Angeles, CA",1777277.57,31,443071.16,75.07
+2024-08,Illinois Dealership,"Chicago, IL",1265649.36,24,300271.23,76.28
+2024-09,New York Dealership,"New York, NY",1258321.07,24,306270.52,75.66
+2024-09,Texas Dealership,"Austin, TX",1014092.15,20,236979.72,76.63
+2024-09,Florida Dealership,"Miami, FL",678416.0,14,141481.55,79.15
+2024-09,California Dealership,"Los Angeles, CA",1385853.42,28,289761.33,79.09
+2024-09,Illinois Dealership,"Chicago, IL",1249976.51,24,256886.39,79.45
+2024-10,New York Dealership,"New York, NY",920207.41,20,227428.1,75.29
+2024-10,Texas Dealership,"Austin, TX",572824.02,12,133833.22,76.64
+2024-10,Florida Dealership,"Miami, FL",1424785.7,25,341229.75,76.05
+2024-10,California Dealership,"Los Angeles, CA",1344464.76,25,291154.42,78.34
+2024-10,Illinois Dealership,"Chicago, IL",1314265.43,27,293108.9,77.7
+2024-11,New York Dealership,"New York, NY",1172178.85,21,236767.21,79.8
+2024-11,Texas Dealership,"Austin, TX",779616.97,16,190577.66,75.55
+2024-11,Florida Dealership,"Miami, FL",1109482.78,22,269216.19,75.73
+2024-11,California Dealership,"Los Angeles, CA",725092.26,16,173471.48,76.08
+2024-11,Illinois Dealership,"Chicago, IL",875162.19,15,177583.63,79.71
+2024-12,New York Dealership,"New York, NY",782206.78,16,163256.32,79.13
+2024-12,Texas Dealership,"Austin, TX",843684.78,16,182833.69,78.33
+2024-12,Florida Dealership,"Miami, FL",1145716.59,23,244213.08,78.68
+2024-12,California Dealership,"Los Angeles, CA",1492379.75,29,361040.97,75.81
+2024-12,Illinois Dealership,"Chicago, IL",781247.0,14,163860.14,79.03
+2025-01,New York Dealership,"New York, NY",854073.49,17,193538.37,77.34
+2025-01,Texas Dealership,"Austin, TX",741185.44,15,169412.06,77.14
+2025-01,Florida Dealership,"Miami, FL",1255706.24,25,277825.75,77.87
+2025-01,California Dealership,"Los Angeles, CA",770818.92,14,163440.12,78.8
+2025-01,Illinois Dealership,"Chicago, IL",1138843.62,21,282449.98,75.2
+2025-02,New York Dealership,"New York, NY",720689.67,14,159034.56,77.93
+2025-02,Texas Dealership,"Austin, TX",933058.82,14,220542.91,76.36
+2025-02,Florida Dealership,"Miami, FL",959810.49,18,200794.59,79.08
+2025-02,California Dealership,"Los Angeles, CA",1759389.5,32,424260.17,75.89
+2025-02,Illinois Dealership,"Chicago, IL",662951.13,13,139746.51,78.92
+2025-03,New York Dealership,"New York, NY",1311761.99,25,306644.48,76.62
+2025-03,Texas Dealership,"Austin, TX",1320022.78,24,297433.87,77.47
+2025-03,Florida Dealership,"Miami, FL",901104.78,17,186824.12,79.27
+2025-03,California Dealership,"Los Angeles, CA",1521416.32,30,306181.17,79.88
+2025-03,Illinois Dealership,"Chicago, IL",1628436.72,32,401470.58,75.35
+2025-04,New York Dealership,"New York, NY",1700788.6,29,350846.37,79.37
+2025-04,Texas Dealership,"Austin, TX",1038400.29,22,244281.15,76.48
+2025-04,Florida Dealership,"Miami, FL",1755067.28,28,408288.76,76.74
+2025-04,California Dealership,"Los Angeles, CA",1810964.36,34,393135.01,78.29
+2025-04,Illinois Dealership,"Chicago, IL",1639222.54,27,343038.7,79.07
+2025-05,New York Dealership,"New York, NY",1955646.07,37,408566.56,79.11
+2025-05,Texas Dealership,"Austin, TX",1171467.75,21,268578.19,77.07
+2025-05,Florida Dealership,"Miami, FL",1488000.63,28,338291.09,77.27
+2025-05,California Dealership,"Los Angeles, CA",1547824.29,31,377354.53,75.62
+2025-05,Illinois Dealership,"Chicago, IL",1403374.96,26,325583.21,76.8
+2025-06,New York Dealership,"New York, NY",1757223.24,32,423427.1,75.9
+2025-06,Texas Dealership,"Austin, TX",1816926.08,34,366329.82,79.84
+2025-06,Florida Dealership,"Miami, FL",1846269.56,33,431195.62,76.65
+2025-06,California Dealership,"Los Angeles, CA",2240780.92,40,474340.68,78.83
+2025-06,Illinois Dealership,"Chicago, IL",1707628.25,31,363113.4,78.74
+2025-07,New York Dealership,"New York, NY",2100238.24,37,495716.77,76.4
+2025-07,Texas Dealership,"Austin, TX",982768.5,19,235541.75,76.03
+2025-07,Florida Dealership,"Miami, FL",1644848.26,30,359542.07,78.14
+2025-07,California Dealership,"Los Angeles, CA",1892410.4,36,453239.56,76.05
+2025-07,Illinois Dealership,"Chicago, IL",1569514.83,31,348726.16,77.78
+2025-08,New York Dealership,"New York, NY",1992577.54,40,483961.75,75.71
+2025-08,Texas Dealership,"Austin, TX",1341762.64,26,270023.28,79.88
+2025-08,Florida Dealership,"Miami, FL",1847359.44,35,377184.16,79.58
+2025-08,California Dealership,"Los Angeles, CA",2606445.37,49,622465.0,76.12
+2025-08,Illinois Dealership,"Chicago, IL",1821737.7,32,421193.92,76.88
+2025-09,New York Dealership,"New York, NY",1074721.18,20,244983.78,77.2
+2025-09,Texas Dealership,"Austin, TX",1303769.35,26,300778.21,76.93
+2025-09,Florida Dealership,"Miami, FL",1297892.04,23,319942.76,75.35
+2025-09,California Dealership,"Los Angeles, CA",1404637.07,26,326966.99,76.72
+2025-09,Illinois Dealership,"Chicago, IL",1326588.44,26,308264.4,76.76
+2025-10,New York Dealership,"New York, NY",305544.12,5,72711.42,76.2
+2025-10,Texas Dealership,"Austin, TX",425415.22,8,103516.73,75.67
+2025-10,Florida Dealership,"Miami, FL",309318.21,7,65914.36,78.69
+2025-10,California Dealership,"Los Angeles, CA",548894.5,10,126705.4,76.92
+2025-10,Illinois Dealership,"Chicago, IL",460549.29,9,105557.32,77.08
