@@ -1,5 +1,12 @@
 import React from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
@@ -34,7 +41,7 @@ const WarehouseDashboard: React.FC = () => {
           <Text style={styles.location}>{user?.location}</Text>
         </View>
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
+          <Text style={styles.logoutText}>Go Back</Text>
         </TouchableOpacity>
       </View>
 
@@ -44,89 +51,91 @@ const WarehouseDashboard: React.FC = () => {
         </View>
       ) : (
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.statsContainer}>
-          <Card style={styles.statCard}>
-            <Text style={styles.statValue}>{parts.length}</Text>
-            <Text style={styles.statLabel}>Parts in Stock</Text>
-          </Card>
-          <Card style={styles.statCard}>
-            <Text style={styles.statValue}>{todayScans.length}</Text>
-            <Text style={styles.statLabel}>Scans Today</Text>
-          </Card>
-        </View>
+          <View style={styles.statsContainer}>
+            <Card style={styles.statCard}>
+              <Text style={styles.statValue}>{parts.length}</Text>
+              <Text style={styles.statLabel}>Parts in Stock</Text>
+            </Card>
+            <Card style={styles.statCard}>
+              <Text style={styles.statValue}>{todayScans.length}</Text>
+              <Text style={styles.statLabel}>Scans Today</Text>
+            </Card>
+          </View>
 
-        <View style={styles.actionsContainer}>
-          <Button
-            title="📷 Scan Part"
-            onPress={() => navigation.navigate('ScanPart' as never)}
-            size="large"
-            style={styles.actionButton}
-          />
-          <Button
-            title="📦 Order from HQ"
-            onPress={() => navigation.navigate('OrderParts' as never)}
-            variant="secondary"
-            size="large"
-            style={styles.actionButton}
-          />
-        </View>
+          <View style={styles.actionsContainer}>
+            <Button
+              title="📷 Scan Part"
+              onPress={() => navigation.navigate('ScanPart' as never)}
+              size="large"
+              style={styles.actionButton}
+            />
+            <Button
+              title="📦 Order from HQ"
+              onPress={() => navigation.navigate('OrderParts' as never)}
+              variant="secondary"
+              size="large"
+              style={styles.actionButton}
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recent Scans</Text>
-          {todayScans.length > 0 ? (
-            todayScans.map(record => (
-              <Card key={record.id} style={styles.recordCard}>
-                <View style={styles.recordHeader}>
-                  <Text style={styles.recordTitle}>{record.partName}</Text>
-                  <View
-                    style={[
-                      styles.typeBadge,
-                      record.type === 'incoming'
-                        ? styles.typeBadgeIncoming
-                        : styles.typeBadgeOutgoing,
-                    ]}>
-                    <Text style={styles.typeBadgeText}>
-                      {record.type === 'incoming' ? '📥' : '📤'} {record.type.toUpperCase()}
-                    </Text>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Recent Scans</Text>
+            {todayScans.length > 0 ? (
+              todayScans.map(record => (
+                <Card key={record.id} style={styles.recordCard}>
+                  <View style={styles.recordHeader}>
+                    <Text style={styles.recordTitle}>{record.partName}</Text>
+                    <View
+                      style={[
+                        styles.typeBadge,
+                        record.type === 'incoming'
+                          ? styles.typeBadgeIncoming
+                          : styles.typeBadgeOutgoing,
+                      ]}>
+                      <Text style={styles.typeBadgeText}>
+                        {record.type === 'incoming' ? '📥' : '📤'} {record.type.toUpperCase()}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={styles.recordDetail}>SKU: {record.sku}</Text>
+                  <Text style={styles.recordDetail}>Quantity: {record.quantity}</Text>
+                  {record.destination && (
+                    <Text style={styles.recordDetail}>To: {record.destination}</Text>
+                  )}
+                  <Text style={styles.recordTime}>{record.timestamp.toLocaleTimeString()}</Text>
+                </Card>
+              ))
+            ) : (
+              <Card style={styles.emptyCard}>
+                <Text style={styles.emptyText}>No scans recorded today</Text>
+              </Card>
+            )}
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Parts Inventory</Text>
+            {parts.map(part => (
+              <Card key={part.id} style={styles.partCard}>
+                <View style={styles.partHeader}>
+                  <View style={styles.partInfo}>
+                    <Text style={styles.partName}>{part.name}</Text>
+                    <Text style={styles.partSku}>SKU: {part.sku}</Text>
+                  </View>
+                  <View style={styles.partQuantity}>
+                    <Text style={styles.quantityValue}>{part.quantity}</Text>
+                    <Text style={styles.quantityLabel}>in stock</Text>
                   </View>
                 </View>
-                <Text style={styles.recordDetail}>SKU: {record.sku}</Text>
-                <Text style={styles.recordDetail}>Quantity: {record.quantity}</Text>
-                {record.destination && (
-                  <Text style={styles.recordDetail}>To: {record.destination}</Text>
-                )}
-                <Text style={styles.recordTime}>{record.timestamp.toLocaleTimeString()}</Text>
+                <View style={styles.partDetails}>
+                  <Text style={styles.partDetail}>
+                    📍 Location: {part.location || 'Not specified'}
+                  </Text>
+                  <Text style={styles.partDetail}>🏷️ ${part.price.toLocaleString()}</Text>
+                </View>
               </Card>
-            ))
-          ) : (
-            <Card style={styles.emptyCard}>
-              <Text style={styles.emptyText}>No scans recorded today</Text>
-            </Card>
-          )}
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Parts Inventory</Text>
-          {parts.map(part => (
-            <Card key={part.id} style={styles.partCard}>
-              <View style={styles.partHeader}>
-                <View style={styles.partInfo}>
-                  <Text style={styles.partName}>{part.name}</Text>
-                  <Text style={styles.partSku}>SKU: {part.sku}</Text>
-                </View>
-                <View style={styles.partQuantity}>
-                  <Text style={styles.quantityValue}>{part.quantity}</Text>
-                  <Text style={styles.quantityLabel}>in stock</Text>
-                </View>
-              </View>
-              <View style={styles.partDetails}>
-                <Text style={styles.partDetail}>📍 Location: {part.location}</Text>
-                <Text style={styles.partDetail}>🏷️ ${part.price.toLocaleString()}</Text>
-              </View>
-            </Card>
-          ))}
-        </View>
-      </ScrollView>
+            ))}
+          </View>
+        </ScrollView>
       )}
     </View>
   );

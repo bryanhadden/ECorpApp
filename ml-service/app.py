@@ -186,16 +186,28 @@ def get_sales():
         # Get most recent sales
         recent_sales = sales_df.sort_values('date', ascending=False).head(limit)
         
+        # Map dealerships to salespeople
+        dealership_sales_map = {
+            'New York Dealership': 'Sarah Sales',
+            'Texas Dealership': 'Mike Sales',
+            'Florida Dealership': 'Lisa Sales',
+            'California Dealership': 'Alex Sales',
+            'Illinois Dealership': 'Tom Sales',
+        }
+        
         sales_list = []
         for _, row in recent_sales.iterrows():
+            dealership = row['dealership']
+            salesperson = dealership_sales_map.get(dealership, 'Sarah Sales')
+            
             sales_list.append({
                 'id': row['id'],
-                'dealership': row['dealership'],
+                'dealership': dealership,
                 'model': row['model'],
                 'price': round(row['price'], 2),
                 'date': row['date'],
                 'customerName': f"Customer {row['id'][-4:]}",  # Generate customer name
-                'salesPerson': 'Sales Team',
+                'salesPerson': salesperson,
             })
         
         return jsonify(sales_list)
@@ -232,6 +244,22 @@ def get_parts():
             # Calculate recommended stock level
             recommended_stock = predicted_demand * 2  # Safety factor
             
+            # Generate location based on category and part_id
+            location_map = {
+                'Power': 'A',
+                'Drivetrain': 'B', 
+                'Electrical': 'C',
+                'Interior': 'D',
+                'Safety': 'E',
+                'Wheels': 'F',
+                'Chassis': 'G',
+                'Climate': 'H'
+            }
+            
+            category_prefix = location_map.get(row['category'], 'X')
+            location_suffix = str(int(row['part_id'].replace('P', '')) + 10)  # P001 -> 11, P002 -> 12, etc.
+            location = f"{category_prefix}-{location_suffix}"
+            
             parts_list.append({
                 'id': row['part_id'],
                 'name': row['part_name'],
@@ -239,6 +267,7 @@ def get_parts():
                 'category': row['category'],
                 'quantity': row['inventory_level'],
                 'price': row['price'],
+                'location': location,
                 'predictedDemand': predicted_demand,
                 'recommendedStock': recommended_stock,
                 'needsReorder': row['inventory_level'] < recommended_stock,

@@ -1,5 +1,12 @@
 import React from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import {colors, spacing, typography} from '../../styles/theme';
@@ -37,7 +44,7 @@ const CSuiteDashboard: React.FC = () => {
             <Text style={styles.refreshText}>↻</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-            <Text style={styles.logoutText}>Logout</Text>
+            <Text style={styles.logoutText}>Go Back</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -49,171 +56,174 @@ const CSuiteDashboard: React.FC = () => {
         </View>
       ) : (
         <ScrollView style={styles.content}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Company Overview</Text>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Company Overview</Text>
 
-          <Card style={styles.metricCard}>
-            <View style={styles.metricRow}>
-              <View style={styles.metricColumn}>
-                <Text style={styles.metricLabel}>Total Sales YTD</Text>
-                <Text style={styles.metricValue}>{formatCurrency(analytics.totalSalesYTD)}</Text>
-                <Text style={styles.metricSubtext}>Year to Date</Text>
-              </View>
-              <View style={styles.metricColumn}>
-                <Text style={styles.metricLabel}>Projected 2025</Text>
-                <Text style={[styles.metricValue, styles.projectedValue]}>
-                  {formatCurrency(analytics.totalSalesProjected)}
-                </Text>
-                <Text style={styles.projectionBadge}>
-                  {getProjectionPercentage(analytics.totalSalesYTD, analytics.totalSalesProjected)}
-                </Text>
-              </View>
-            </View>
-          </Card>
-
-          <Card style={styles.metricCard}>
-            <View style={styles.metricRow}>
-              <View style={styles.metricColumn}>
-                <Text style={styles.metricLabel}>Parts Cost YTD</Text>
-                <Text style={[styles.metricValue, styles.costValue]}>
-                  {formatCurrency(analytics.totalPartsCostYTD)}
-                </Text>
-                <Text style={styles.metricSubtext}>Operating Expense</Text>
-              </View>
-              <View style={styles.metricColumn}>
-                <Text style={styles.metricLabel}>Projected Cost</Text>
-                <Text style={[styles.metricValue, styles.costValue]}>
-                  {formatCurrency(analytics.totalPartsCostProjected)}
-                </Text>
-                <Text style={styles.metricSubtext}>
-                  {((analytics.totalPartsCostYTD / analytics.totalSalesYTD) * 100).toFixed(1)}% of
-                  sales
-                </Text>
-              </View>
-            </View>
-          </Card>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Monthly Sales Trend</Text>
-          <Card style={styles.chartCard}>
-            {analytics.monthlySales.map((month, index) => {
-              const maxSales = Math.max(...analytics.monthlySales.map(m => m.amount));
-              const barWidth = (month.amount / maxSales) * 100;
-
-              return (
-                <View key={index} style={styles.barContainer}>
-                  <Text style={styles.monthLabel}>{month.month}</Text>
-                  <View style={styles.barWrapper}>
-                    <View
-                      style={[
-                        styles.bar,
-                        {
-                          width: `${barWidth}%`,
-                          backgroundColor:
-                            index === analytics.monthlySales.length - 1
-                              ? colors.warning
-                              : colors.primary,
-                        },
-                      ]}
-                    />
-                  </View>
-                  <Text style={styles.amountLabel}>${(month.amount / 1000).toFixed(0)}K</Text>
+            <Card style={styles.metricCard}>
+              <View style={styles.metricRow}>
+                <View style={styles.metricColumn}>
+                  <Text style={styles.metricLabel}>Total Sales YTD</Text>
+                  <Text style={styles.metricValue}>{formatCurrency(analytics.totalSalesYTD)}</Text>
+                  <Text style={styles.metricSubtext}>Year to Date</Text>
                 </View>
-              );
-            })}
-          </Card>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Dealership Performance</Text>
-
-          {analytics.dealerships.map((dealership, index) => (
-            <Card key={index} style={styles.dealershipCard}>
-              <View style={styles.dealershipHeader}>
-                <View>
-                  <Text style={styles.dealershipName}>{dealership.name}</Text>
-                  <Text style={styles.dealershipLocation}>📍 {dealership.location}</Text>
-                </View>
-              </View>
-
-              <View style={styles.dealershipMetrics}>
-                <View style={styles.dealershipMetric}>
-                  <Text style={styles.dealershipMetricLabel}>Sales YTD</Text>
-                  <Text style={styles.dealershipMetricValue}>
-                    {formatCurrency(dealership.salesYTD)}
+                <View style={styles.metricColumn}>
+                  <Text style={styles.metricLabel}>Projected 2025</Text>
+                  <Text style={[styles.metricValue, styles.projectedValue]}>
+                    {formatCurrency(analytics.totalSalesProjected)}
                   </Text>
-                  <Text style={styles.dealershipMetricProjection}>
-                    → {formatCurrency(dealership.salesProjected)}
+                  <Text style={styles.projectionBadge}>
+                    {getProjectionPercentage(
+                      analytics.totalSalesYTD,
+                      analytics.totalSalesProjected,
+                    )}
                   </Text>
                 </View>
-
-                <View style={styles.divider} />
-
-                <View style={styles.dealershipMetric}>
-                  <Text style={styles.dealershipMetricLabel}>Parts Cost</Text>
-                  <Text style={[styles.dealershipMetricValue, styles.costValue]}>
-                    {formatCurrency(dealership.partsCostYTD)}
-                  </Text>
-                  <Text style={styles.dealershipMetricProjection}>
-                    → {formatCurrency(dealership.partsCostProjected)}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.marginCard}>
-                <Text style={styles.marginLabel}>Gross Margin</Text>
-                <Text style={styles.marginValue}>
-                  {(
-                    ((dealership.salesYTD - dealership.partsCostYTD) / dealership.salesYTD) *
-                    100
-                  ).toFixed(1)}
-                  %
-                </Text>
               </View>
             </Card>
-          ))}
-        </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Key Metrics</Text>
+            <Card style={styles.metricCard}>
+              <View style={styles.metricRow}>
+                <View style={styles.metricColumn}>
+                  <Text style={styles.metricLabel}>Parts Cost YTD</Text>
+                  <Text style={[styles.metricValue, styles.costValue]}>
+                    {formatCurrency(analytics.totalPartsCostYTD)}
+                  </Text>
+                  <Text style={styles.metricSubtext}>Operating Expense</Text>
+                </View>
+                <View style={styles.metricColumn}>
+                  <Text style={styles.metricLabel}>Projected Cost</Text>
+                  <Text style={[styles.metricValue, styles.costValue]}>
+                    {formatCurrency(analytics.totalPartsCostProjected)}
+                  </Text>
+                  <Text style={styles.metricSubtext}>
+                    {((analytics.totalPartsCostYTD / analytics.totalSalesYTD) * 100).toFixed(1)}% of
+                    sales
+                  </Text>
+                </View>
+              </View>
+            </Card>
+          </View>
 
-          <Card style={styles.kpiCard}>
-            <View style={styles.kpiRow}>
-              <View style={styles.kpi}>
-                <Text style={styles.kpiValue}>{analytics.dealerships.length}</Text>
-                <Text style={styles.kpiLabel}>Active Dealerships</Text>
-              </View>
-              <View style={styles.kpi}>
-                <Text style={styles.kpiValue}>
-                  {(analytics.totalSalesYTD / analytics.dealerships.length / 1000000).toFixed(1)}M
-                </Text>
-                <Text style={styles.kpiLabel}>Avg per Dealership</Text>
-              </View>
-            </View>
-          </Card>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Monthly Sales Trend</Text>
+            <Card style={styles.chartCard}>
+              {analytics.monthlySales.map((month, index) => {
+                const maxSales = Math.max(...analytics.monthlySales.map(m => m.amount));
+                const barWidth = (month.amount / maxSales) * 100;
 
-          <Card style={styles.kpiCard}>
-            <View style={styles.kpiRow}>
-              <View style={styles.kpi}>
-                <Text style={styles.kpiValue}>
-                  {(
-                    ((analytics.totalSalesYTD - analytics.totalPartsCostYTD) /
-                      analytics.totalSalesYTD) *
-                    100
-                  ).toFixed(1)}
-                  %
-                </Text>
-                <Text style={styles.kpiLabel}>Company Margin</Text>
+                return (
+                  <View key={index} style={styles.barContainer}>
+                    <Text style={styles.monthLabel}>{month.month}</Text>
+                    <View style={styles.barWrapper}>
+                      <View
+                        style={[
+                          styles.bar,
+                          {
+                            width: `${barWidth}%`,
+                            backgroundColor:
+                              index === analytics.monthlySales.length - 1
+                                ? colors.warning
+                                : colors.primary,
+                          },
+                        ]}
+                      />
+                    </View>
+                    <Text style={styles.amountLabel}>${(month.amount / 1000).toFixed(0)}K</Text>
+                  </View>
+                );
+              })}
+            </Card>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Dealership Performance</Text>
+
+            {analytics.dealerships.map((dealership, index) => (
+              <Card key={index} style={styles.dealershipCard}>
+                <View style={styles.dealershipHeader}>
+                  <View>
+                    <Text style={styles.dealershipName}>{dealership.name}</Text>
+                    <Text style={styles.dealershipLocation}>📍 {dealership.location}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.dealershipMetrics}>
+                  <View style={styles.dealershipMetric}>
+                    <Text style={styles.dealershipMetricLabel}>Sales YTD</Text>
+                    <Text style={styles.dealershipMetricValue}>
+                      {formatCurrency(dealership.salesYTD)}
+                    </Text>
+                    <Text style={styles.dealershipMetricProjection}>
+                      → {formatCurrency(dealership.salesProjected)}
+                    </Text>
+                  </View>
+
+                  <View style={styles.divider} />
+
+                  <View style={styles.dealershipMetric}>
+                    <Text style={styles.dealershipMetricLabel}>Parts Cost</Text>
+                    <Text style={[styles.dealershipMetricValue, styles.costValue]}>
+                      {formatCurrency(dealership.partsCostYTD)}
+                    </Text>
+                    <Text style={styles.dealershipMetricProjection}>
+                      → {formatCurrency(dealership.partsCostProjected)}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.marginCard}>
+                  <Text style={styles.marginLabel}>Gross Margin</Text>
+                  <Text style={styles.marginValue}>
+                    {(
+                      ((dealership.salesYTD - dealership.partsCostYTD) / dealership.salesYTD) *
+                      100
+                    ).toFixed(1)}
+                    %
+                  </Text>
+                </View>
+              </Card>
+            ))}
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Key Metrics</Text>
+
+            <Card style={styles.kpiCard}>
+              <View style={styles.kpiRow}>
+                <View style={styles.kpi}>
+                  <Text style={styles.kpiValue}>{analytics.dealerships.length}</Text>
+                  <Text style={styles.kpiLabel}>Active Dealerships</Text>
+                </View>
+                <View style={styles.kpi}>
+                  <Text style={styles.kpiValue}>
+                    {(analytics.totalSalesYTD / analytics.dealerships.length / 1000000).toFixed(1)}M
+                  </Text>
+                  <Text style={styles.kpiLabel}>Avg per Dealership</Text>
+                </View>
               </View>
-              <View style={styles.kpi}>
-                <Text style={styles.kpiValue}>Q4</Text>
-                <Text style={styles.kpiLabel}>Current Quarter</Text>
+            </Card>
+
+            <Card style={styles.kpiCard}>
+              <View style={styles.kpiRow}>
+                <View style={styles.kpi}>
+                  <Text style={styles.kpiValue}>
+                    {(
+                      ((analytics.totalSalesYTD - analytics.totalPartsCostYTD) /
+                        analytics.totalSalesYTD) *
+                      100
+                    ).toFixed(1)}
+                    %
+                  </Text>
+                  <Text style={styles.kpiLabel}>Company Margin</Text>
+                </View>
+                <View style={styles.kpi}>
+                  <Text style={styles.kpiValue}>Q4</Text>
+                  <Text style={styles.kpiLabel}>Current Quarter</Text>
+                </View>
               </View>
-            </View>
-          </Card>
-        </View>
-      </ScrollView>
+            </Card>
+          </View>
+        </ScrollView>
       )}
     </View>
   );

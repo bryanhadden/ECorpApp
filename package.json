@@ -13,6 +13,8 @@
     "type-check": "tsc --noEmit",
     "start": "react-native start",
     "stop": "lsof -ti :8081 | xargs kill -9 2>/dev/null || true",
+    "start:ml": "cd ml-service && ./start.sh",
+    "stop:ml": "pkill -f 'python.*app.py' || lsof -ti :5001 | xargs kill -9 2>/dev/null || true",
     "stop:ios": "npm run stop && xcrun simctl shutdown all",
     "stop:android": "npm run stop && adb shell am force-stop com.bryan.ecorpapp 2>/dev/null || true",
     "test": "jest",

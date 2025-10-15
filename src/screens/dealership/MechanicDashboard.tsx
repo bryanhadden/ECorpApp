@@ -1,14 +1,15 @@
-import React from 'react';
-import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import {colors, spacing, typography} from '../../styles/theme';
-import {useServiceTickets} from '../../hooks/useMLData';
+import {mockServiceTickets} from '../../utils/mockData';
+import {ServiceTicket} from '../../types';
 
 const MechanicDashboard: React.FC = () => {
   const {user, logout} = useAuth();
-  const {tickets, loading, usingML} = useServiceTickets();
+  const [tickets, setTickets] = useState<ServiceTicket[]>(mockServiceTickets);
 
   const myTickets = tickets.filter(ticket => ticket.assignedMechanic === user?.name);
 
@@ -18,11 +19,29 @@ const MechanicDashboard: React.FC = () => {
     logout();
   };
 
-  const handleClaimTicket = (_ticketId: string) => {
+  const handleClaimTicket = (ticketId: string) => {
+    setTickets(prevTickets =>
+      prevTickets.map(ticket =>
+        ticket.id === ticketId
+          ? {
+              ...ticket,
+              status: 'in_progress' as const,
+              assignedMechanic: user?.name || 'Tom Mechanic',
+            }
+          : ticket,
+      ),
+    );
     Alert.alert('Success', 'Service ticket assigned to you!');
   };
 
-  const handleCompleteTicket = (_ticketId: string) => {
+  const handleCompleteTicket = (ticketId: string) => {
+    setTickets(prevTickets =>
+      prevTickets.map(ticket =>
+        ticket.id === ticketId
+          ? {...ticket, status: 'completed' as const, completedAt: new Date()}
+          : ticket,
+      ),
+    );
     Alert.alert('Success', 'Service ticket marked as completed!');
   };
 
@@ -47,21 +66,16 @@ const MechanicDashboard: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcome}>Service Bay {usingML ? '(ML)' : ''}</Text>
+          <Text style={styles.welcome}>Service Bay</Text>
           <Text style={styles.userName}>{user?.name}</Text>
           <Text style={styles.location}>{user?.location}</Text>
         </View>
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
+          <Text style={styles.logoutText}>Go Back</Text>
         </TouchableOpacity>
       </View>
 
-      {loading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      ) : (
-        <ScrollView style={styles.content}>
+      <ScrollView style={styles.content}>
         <View style={styles.statsContainer}>
           <Card style={styles.statCard}>
             <Text style={styles.statValue}>{myTickets.length}</Text>
@@ -167,7 +181,6 @@ const MechanicDashboard: React.FC = () => {
           </Card>
         </View>
       </ScrollView>
-      )}
     </View>
   );
 };
@@ -176,11 +189,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   header: {
     backgroundColor: colors.primary,

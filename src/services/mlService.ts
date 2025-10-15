@@ -3,18 +3,12 @@
  * Connects to the Python TensorFlow ML service for predictions
  */
 
-import {
-  AnalyticsData,
-  Order,
-  Part,
-  Sale,
-  ServiceTicket,
-} from '../types';
+import {AnalyticsData, Order, Part, Sale, ServiceTicket} from '../types';
 
 // ML Service configuration
-const ML_SERVICE_URL = __DEV__ 
-  ? 'http://192.168.1.226:5001'  // Development - Mac's local IP
-  : 'https://your-ml-service.com';  // Production - update with your deployed URL
+const ML_SERVICE_URL = __DEV__
+  ? 'http://192.168.1.226:5001' // Development - Mac's local IP
+  : 'https://my-ml-service.com'; // Production - need to update with deployed URL
 
 // API Response Types
 interface DealershipResponse {
@@ -80,11 +74,11 @@ export const checkMLServiceHealth = async (): Promise<boolean> => {
         'Content-Type': 'application/json',
       },
     });
-    
+
     if (!response.ok) {
       return false;
     }
-    
+
     const data = await response.json();
     return data.status === 'healthy' && data.models_loaded;
   } catch (error) {
@@ -110,7 +104,7 @@ export const fetchAnalytics = async (): Promise<AnalyticsData> => {
     }
 
     const data = await response.json();
-    
+
     // Transform API response to match app types
     return {
       totalSalesYTD: data.totalSalesYTD,
@@ -134,33 +128,47 @@ export const fetchAnalytics = async (): Promise<AnalyticsData> => {
 };
 
 /**
+ * Parse date string to local Date object, avoiding timezone issues
+ * Dates from API are like "2025-10-07" and should be treated as local dates
+ */
+const parseLocalDate = (dateString: string): Date => {
+  // Parse YYYY-MM-DD format and create as local date at noon to avoid timezone issues
+  const parts = dateString.split('-');
+  if (parts.length === 3) {
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+    const day = parseInt(parts[2], 10);
+    return new Date(year, month, day, 12, 0, 0);
+  }
+  // Fallback to standard parsing
+  return new Date(dateString);
+};
+
+/**
  * Fetch recent sales data
  */
 export const fetchSales = async (limit: number = 50): Promise<Sale[]> => {
   try {
-    const response = await fetch(
-      `${ML_SERVICE_URL}/api/sales?limit=${limit}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const response = await fetch(`${ML_SERVICE_URL}/api/sales?limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    
+
     return data.map((sale: SaleResponse) => ({
       id: sale.id,
       dealership: sale.dealership,
       model: sale.model,
       price: sale.price,
       salesPerson: sale.salesPerson,
-      date: new Date(sale.date),
+      date: parseLocalDate(sale.date),
       customerName: sale.customerName,
     }));
   } catch (error) {
@@ -186,7 +194,7 @@ export const fetchParts = async (): Promise<Part[]> => {
     }
 
     const data = await response.json();
-    
+
     return data.map((part: PartResponse) => ({
       id: part.id,
       name: part.name,
@@ -211,22 +219,19 @@ export const fetchParts = async (): Promise<Part[]> => {
  */
 export const fetchServiceTickets = async (limit: number = 50): Promise<ServiceTicket[]> => {
   try {
-    const response = await fetch(
-      `${ML_SERVICE_URL}/api/service-tickets?limit=${limit}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const response = await fetch(`${ML_SERVICE_URL}/api/service-tickets?limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    
+
     return data.map((ticket: ServiceTicketResponse) => ({
       id: ticket.id,
       vehicleModel: ticket.vehicleModel,
@@ -234,8 +239,8 @@ export const fetchServiceTickets = async (limit: number = 50): Promise<ServiceTi
       issue: ticket.issue,
       status: ticket.status,
       assignedMechanic: ticket.assignedMechanic,
-      createdAt: new Date(ticket.createdAt),
-      completedAt: ticket.completedAt ? new Date(ticket.completedAt) : undefined,
+      createdAt: parseLocalDate(ticket.createdAt),
+      completedAt: ticket.completedAt ? parseLocalDate(ticket.completedAt) : undefined,
     }));
   } catch (error) {
     console.error('Error fetching service tickets:', error);
@@ -260,14 +265,16 @@ export const fetchOrders = async (): Promise<Order[]> => {
     }
 
     const data = await response.json();
-    
+
     return data.map((order: OrderResponse) => ({
       id: order.id,
       parts: order.parts,
       requestedBy: order.requestedBy,
       status: order.status,
-      createdAt: new Date(order.createdAt),
-      estimatedDelivery: order.estimatedDelivery ? new Date(order.estimatedDelivery) : undefined,
+      createdAt: parseLocalDate(order.createdAt),
+      estimatedDelivery: order.estimatedDelivery
+        ? parseLocalDate(order.estimatedDelivery)
+        : undefined,
     }));
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -297,4 +304,3 @@ export const fetchMetadata = async () => {
     throw error;
   }
 };
-

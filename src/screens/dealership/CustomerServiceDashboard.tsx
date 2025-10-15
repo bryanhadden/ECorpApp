@@ -22,7 +22,7 @@ const CustomerServiceDashboard: React.FC = () => {
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
 
-  const [inquiries] = useState<Inquiry[]>([
+  const [inquiries, setInquiries] = useState<Inquiry[]>([
     {
       id: 'I001',
       customerName: 'John Doe',
@@ -39,6 +39,62 @@ const CustomerServiceDashboard: React.FC = () => {
       status: 'resolved',
       createdAt: new Date('2025-10-09'),
     },
+    {
+      id: 'I003',
+      customerName: 'Mike Johnson',
+      topic: 'Range Concerns',
+      description: "I'm worried about range anxiety. What's the real-world range?",
+      status: 'open',
+      createdAt: new Date('2025-10-11'),
+    },
+    {
+      id: 'I004',
+      customerName: 'Sarah Wilson',
+      topic: 'Financing Options',
+      description: 'What financing plans do you offer? Can I get pre-approved?',
+      status: 'open',
+      createdAt: new Date('2025-10-11'),
+    },
+    {
+      id: 'I005',
+      customerName: 'David Brown',
+      topic: 'Maintenance Schedule',
+      description: 'How often do I need to bring the car in for maintenance?',
+      status: 'open',
+      createdAt: new Date('2025-10-10'),
+    },
+    {
+      id: 'I006',
+      customerName: 'Lisa Garcia',
+      topic: 'Test Drive Request',
+      description: "I'd like to schedule a test drive for this weekend.",
+      status: 'open',
+      createdAt: new Date('2025-10-12'),
+    },
+    {
+      id: 'I007',
+      customerName: 'Robert Taylor',
+      topic: 'Software Updates',
+      description: 'How do I get the latest software updates for my vehicle?',
+      status: 'resolved',
+      createdAt: new Date('2025-10-08'),
+    },
+    {
+      id: 'I008',
+      customerName: 'Emily Davis',
+      topic: 'Charging Station Locator',
+      description: 'Where can I find charging stations near my home?',
+      status: 'resolved',
+      createdAt: new Date('2025-10-07'),
+    },
+    {
+      id: 'I009',
+      customerName: 'Chris Anderson',
+      topic: 'Delivery Timeline',
+      description: 'When will my ordered vehicle be ready for pickup?',
+      status: 'resolved',
+      createdAt: new Date('2025-10-06'),
+    },
   ]);
 
   const handleLogout = () => {
@@ -51,11 +107,36 @@ const CustomerServiceDashboard: React.FC = () => {
       return;
     }
 
+    // Generate new inquiry ID
+    const newId = `I${String(inquiries.length + 1).padStart(3, '0')}`;
+
+    // Create new inquiry
+    const newInquiry: Inquiry = {
+      id: newId,
+      customerName,
+      topic,
+      description,
+      status: 'open',
+      createdAt: new Date(),
+    };
+
+    // Add to inquiries state
+    setInquiries(prevInquiries => [newInquiry, ...prevInquiries]);
+
     Alert.alert('Success', 'Inquiry logged successfully!');
     setShowNewInquiry(false);
     setCustomerName('');
     setTopic('');
     setDescription('');
+  };
+
+  const handleResolveInquiry = (inquiryId: string) => {
+    setInquiries(prevInquiries =>
+      prevInquiries.map(inquiry =>
+        inquiry.id === inquiryId ? {...inquiry, status: 'resolved' as const} : inquiry,
+      ),
+    );
+    Alert.alert('Success', 'Inquiry resolved!');
   };
 
   const openInquiries = inquiries.filter(i => i.status === 'open');
@@ -69,7 +150,7 @@ const CustomerServiceDashboard: React.FC = () => {
           <Text style={styles.location}>{user?.location}</Text>
         </View>
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
+          <Text style={styles.logoutText}>Go Back</Text>
         </TouchableOpacity>
       </View>
 
@@ -142,7 +223,7 @@ const CustomerServiceDashboard: React.FC = () => {
                 <Text style={styles.inquiryDate}>{inquiry.createdAt.toLocaleDateString()}</Text>
                 <Button
                   title="Mark as Resolved"
-                  onPress={() => Alert.alert('Success', 'Inquiry resolved!')}
+                  onPress={() => handleResolveInquiry(inquiry.id)}
                   variant="secondary"
                   size="small"
                   style={styles.resolveButton}
@@ -154,6 +235,26 @@ const CustomerServiceDashboard: React.FC = () => {
               <Text style={styles.emptyText}>No open inquiries at the moment</Text>
             </Card>
           )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Recently Resolved</Text>
+          {inquiries
+            .filter(i => i.status === 'resolved')
+            .slice(0, 3)
+            .map(inquiry => (
+              <Card key={inquiry.id} style={styles.inquiryCard}>
+                <View style={styles.inquiryHeader}>
+                  <Text style={styles.inquiryCustomer}>{inquiry.customerName}</Text>
+                  <View style={[styles.statusBadge, {backgroundColor: colors.success + '20'}]}>
+                    <Text style={[styles.statusText, {color: colors.success}]}>RESOLVED</Text>
+                  </View>
+                </View>
+                <Text style={styles.inquiryTopic}>📋 {inquiry.topic}</Text>
+                <Text style={styles.inquiryDescription}>{inquiry.description}</Text>
+                <Text style={styles.inquiryDate}>{inquiry.createdAt.toLocaleDateString()}</Text>
+              </Card>
+            ))}
         </View>
 
         <View style={styles.section}>

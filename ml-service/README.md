@@ -20,6 +20,7 @@ chmod +x setup.sh
 ```
 
 This will:
+
 1. Create a Python virtual environment
 2. Install all dependencies (TensorFlow, Flask, pandas, scikit-learn, etc.)
 3. Generate training data
@@ -42,49 +43,64 @@ pkill -f "python app.py"
 ## API Endpoints
 
 ### Health Check
+
 ```bash
 GET /health
 ```
+
 Returns service status and whether models are loaded.
 
 ### Analytics
+
 ```bash
 GET /api/analytics
 ```
+
 Returns company-wide analytics with ML predictions including:
+
 - YTD and projected sales
 - Parts costs
 - Per-dealership metrics
 - Monthly sales trends with predictions
 
 ### Sales Data
+
 ```bash
 GET /api/sales?limit=50
 ```
+
 Returns recent sales records.
 
 ### Parts Inventory
+
 ```bash
 GET /api/parts
 ```
+
 Returns parts inventory with ML-predicted demand and reorder recommendations.
 
 ### Service Tickets
+
 ```bash
 GET /api/service-tickets?limit=50
 ```
+
 Returns recent service tickets.
 
 ### Parts Orders
+
 ```bash
 GET /api/orders
 ```
+
 Returns pending parts orders.
 
 ### Metadata
+
 ```bash
 GET /api/metadata
 ```
+
 Returns system metadata, model status, and data statistics.
 
 ## Technical Details
@@ -92,6 +108,7 @@ Returns system metadata, model status, and data statistics.
 ### Models
 
 1. **Sales Forecast Model**
+
    - Architecture: LSTM (Long Short-Term Memory)
    - Input: Historical monthly sales, seasonal trends
    - Output: Next 3 months sales predictions
@@ -106,6 +123,7 @@ Returns system metadata, model status, and data statistics.
 ### Data
 
 All training data is stored in the `data/` directory:
+
 - `sales_history.csv`: Historical sales records
 - `parts_inventory.csv`: Parts inventory over time
 - `service_tickets.csv`: Service ticket records
@@ -127,22 +145,26 @@ See `requirements.txt` for complete list.
 ## Development
 
 ### Regenerate Training Data
+
 ```bash
 python generate_training_data.py
 ```
 
 ### Retrain Models
+
 ```bash
 python train_models.py
 ```
 
 ### Run in Development Mode
+
 ```bash
 source venv/bin/activate
 python app.py
 ```
 
 ### View Logs
+
 ```bash
 tail -f ml-service.log
 ```
@@ -150,6 +172,7 @@ tail -f ml-service.log
 ## Integration with React Native App
 
 The React Native app connects to the ML service via `src/services/mlService.ts`. The service URL is automatically configured:
+
 - Development: `http://localhost:5001`
 - Production: Configure in `mlService.ts`
 
@@ -165,27 +188,35 @@ python app.py
 ## Troubleshooting
 
 ### Port Already in Use
+
 If port 5001 is in use:
+
 ```bash
 pkill -f "python app.py"
 ./start.sh
 ```
 
 ### Models Not Loading
+
 Ensure models are trained:
+
 ```bash
 python train_models.py
 ```
 
 ### Dependencies Issues
+
 Reinstall dependencies:
+
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ### Python Version
+
 This service requires Python 3.13+. Check your version:
+
 ```bash
 python3 --version
 ```

@@ -17,6 +17,7 @@ chmod +x setup.sh start.sh
 ```
 
 This single command will:
+
 1. Create a Python virtual environment
 2. Install all dependencies (TensorFlow, Flask, etc.)
 3. Generate 10,000+ training records
@@ -104,30 +105,33 @@ npm run ios  # or npm run android
 After setup, you'll have:
 
 ### Generated Training Data
+
 - **~5,000 sales records** (2023-2025, 5 dealerships, 5 models)
 - **~1,000 parts inventory records** (8 parts, monthly tracking)
 - **~2,000 service tickets** (10 issue types)
 - **~800 dealership metrics** (performance by location)
 
 ### Trained Models
+
 - **Sales Forecast Model**: LSTM network for monthly predictions
 - **Parts Demand Model**: Neural network for inventory optimization
 
 ## API Endpoints
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /health` | Service health check |
-| `GET /api/analytics` | Company analytics with predictions |
-| `GET /api/sales?limit=50` | Recent sales data |
-| `GET /api/parts` | Parts with demand predictions |
-| `GET /api/service-tickets?limit=50` | Service tickets |
-| `GET /api/orders` | Parts orders |
-| `GET /api/metadata` | System metadata |
+| Endpoint                            | Description                        |
+| ----------------------------------- | ---------------------------------- |
+| `GET /health`                       | Service health check               |
+| `GET /api/analytics`                | Company analytics with predictions |
+| `GET /api/sales?limit=50`           | Recent sales data                  |
+| `GET /api/parts`                    | Parts with demand predictions      |
+| `GET /api/service-tickets?limit=50` | Service tickets                    |
+| `GET /api/orders`                   | Parts orders                       |
+| `GET /api/metadata`                 | System metadata                    |
 
 ## Example Response
 
 **GET /api/analytics**
+
 ```json
 {
   "totalSalesYTD": 12500000,
@@ -142,6 +146,7 @@ After setup, you'll have:
 ```
 
 **GET /api/parts**
+
 ```json
 [
   {
@@ -160,6 +165,7 @@ After setup, you'll have:
 ## Troubleshooting
 
 ### "ModuleNotFoundError: No module named 'tensorflow'"
+
 ```bash
 cd ml-service
 source venv/bin/activate
@@ -167,6 +173,7 @@ pip install -r requirements.txt
 ```
 
 ### "Model file not found"
+
 ```bash
 cd ml-service
 source venv/bin/activate
@@ -174,12 +181,14 @@ python train_models.py
 ```
 
 ### "Connection refused" in React Native app
+
 1. Make sure ML service is running: `curl http://localhost:5000/health`
 2. Check the URL in `src/services/mlService.ts`
 3. For iOS simulator, use `http://localhost:5000`
 4. For Android emulator, use `http://10.0.2.2:5000`
 
 ### Service starts but predictions fail
+
 ```bash
 # Regenerate and retrain
 cd ml-service
@@ -191,6 +200,7 @@ python train_models.py
 ## Development Tips
 
 ### View Training Data
+
 ```bash
 cd ml-service/data
 head sales_history.csv
@@ -198,6 +208,7 @@ head parts_inventory.csv
 ```
 
 ### Monitor Logs
+
 ```bash
 cd ml-service
 source venv/bin/activate
@@ -205,12 +216,15 @@ python app.py  # Shows request logs in terminal
 ```
 
 ### Retrain with More Data
+
 Edit `generate_training_data.py` to change:
+
 - `START_DATE` and `END_DATE` for date range
 - `DEALERSHIPS` array to add more locations
 - `VEHICLE_MODELS` to add more models
 
 Then run:
+
 ```bash
 python generate_training_data.py
 python train_models.py
@@ -249,18 +263,21 @@ python train_models.py
 ## What's Happening Behind the Scenes
 
 1. **Data Generation**: Creates realistic synthetic data with:
+
    - Seasonal sales trends
    - Growth patterns over time
    - Inventory based on demand
    - Service patterns based on vehicle age
 
 2. **Model Training**: Uses TensorFlow to:
+
    - Learn from historical patterns
    - Predict future sales (LSTM)
    - Forecast parts demand (Neural Network)
    - Optimize with dropout and regularization
 
 3. **API Serving**: Flask provides:
+
    - RESTful endpoints
    - Real-time predictions
    - Automatic fallback handling
@@ -273,4 +290,3 @@ python train_models.py
    - Indicates ML vs offline mode
 
 Enjoy your ML-powered E Corp App! 🚀
-

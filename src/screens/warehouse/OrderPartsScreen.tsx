@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
@@ -92,83 +100,83 @@ const OrderPartsScreen: React.FC = () => {
         </View>
       ) : (
         <ScrollView style={styles.content}>
-        <Card style={styles.infoCard}>
-          <Text style={styles.infoTitle}>📦 Order from California HQ</Text>
-          <Text style={styles.infoText}>Requesting as: {user?.name}</Text>
-          <Text style={styles.infoText}>Location: {user?.location}</Text>
-        </Card>
-
-        <Text style={styles.sectionTitle}>Available Parts</Text>
-
-        {parts.map(part => (
-          <Card key={part.id} style={styles.partCard}>
-            <View style={styles.partHeader}>
-              <View style={styles.partInfo}>
-                <Text style={styles.partName}>{part.name}</Text>
-                <Text style={styles.partSku}>SKU: {part.sku}</Text>
-                <Text style={styles.partPrice}>${part.price.toLocaleString()} per unit</Text>
-              </View>
-            </View>
-
-            <View style={styles.orderSection}>
-              <Input
-                placeholder="Qty"
-                value={quantities[part.id] || ''}
-                onChangeText={text => setQuantities({...quantities, [part.id]: text})}
-                keyboardType="numeric"
-                containerStyle={styles.quantityInput}
-              />
-              <Button
-                title="Add to Order"
-                onPress={() => handleAddPart(part.id)}
-                size="small"
-                style={styles.addButton}
-              />
-            </View>
+          <Card style={styles.infoCard}>
+            <Text style={styles.infoTitle}>📦 Order from California HQ</Text>
+            <Text style={styles.infoText}>Requesting as: {user?.name}</Text>
+            <Text style={styles.infoText}>Location: {user?.location}</Text>
           </Card>
-        ))}
 
-        {selectedParts.length > 0 && (
-          <>
-            <Text style={styles.sectionTitle}>Order Summary</Text>
+          <Text style={styles.sectionTitle}>Available Parts</Text>
 
-            {selectedParts.map(item => (
-              <Card key={item.partId} style={styles.orderItemCard}>
-                <View style={styles.orderItemHeader}>
-                  <View style={styles.orderItemInfo}>
-                    <Text style={styles.orderItemName}>{item.partName}</Text>
-                    <Text style={styles.orderItemDetail}>
-                      Quantity: {item.quantity} × ${item.price.toLocaleString()}
-                    </Text>
-                  </View>
-                  <TouchableOpacity
-                    onPress={() => handleRemovePart(item.partId)}
-                    style={styles.removeButton}>
-                    <Text style={styles.removeButtonText}>✕</Text>
-                  </TouchableOpacity>
+          {parts.map(part => (
+            <Card key={part.id} style={styles.partCard}>
+              <View style={styles.partHeader}>
+                <View style={styles.partInfo}>
+                  <Text style={styles.partName}>{part.name}</Text>
+                  <Text style={styles.partSku}>SKU: {part.sku}</Text>
+                  <Text style={styles.partPrice}>${part.price.toLocaleString()} per unit</Text>
                 </View>
-                <Text style={styles.orderItemTotal}>
-                  Subtotal: ${(item.quantity * item.price).toLocaleString()}
-                </Text>
-              </Card>
-            ))}
+              </View>
 
-            <Card style={styles.totalCard}>
-              <View style={styles.totalRow}>
-                <Text style={styles.totalLabel}>Total Cost</Text>
-                <Text style={styles.totalValue}>${getTotalCost().toLocaleString()}</Text>
+              <View style={styles.orderSection}>
+                <Input
+                  placeholder="Qty"
+                  value={quantities[part.id] || ''}
+                  onChangeText={text => setQuantities({...quantities, [part.id]: text})}
+                  keyboardType="numeric"
+                  containerStyle={styles.quantityInput}
+                />
+                <Button
+                  title="Add to Order"
+                  onPress={() => handleAddPart(part.id)}
+                  size="small"
+                  style={styles.addButton}
+                />
               </View>
             </Card>
+          ))}
 
-            <Button
-              title="Submit Order to HQ"
-              onPress={handleSubmitOrder}
-              size="large"
-              style={styles.submitButton}
-            />
-          </>
-        )}
-      </ScrollView>
+          {selectedParts.length > 0 && (
+            <>
+              <Text style={styles.sectionTitle}>Order Summary</Text>
+
+              {selectedParts.map(item => (
+                <Card key={item.partId} style={styles.orderItemCard}>
+                  <View style={styles.orderItemHeader}>
+                    <View style={styles.orderItemInfo}>
+                      <Text style={styles.orderItemName}>{item.partName}</Text>
+                      <Text style={styles.orderItemDetail}>
+                        Quantity: {item.quantity} × ${item.price.toLocaleString()}
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => handleRemovePart(item.partId)}
+                      style={styles.removeButton}>
+                      <Text style={styles.removeButtonText}>✕</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.orderItemTotal}>
+                    Subtotal: ${(item.quantity * item.price).toLocaleString()}
+                  </Text>
+                </Card>
+              ))}
+
+              <Card style={styles.totalCard}>
+                <View style={styles.totalRow}>
+                  <Text style={styles.totalLabel}>Total Cost</Text>
+                  <Text style={styles.totalValue}>${getTotalCost().toLocaleString()}</Text>
+                </View>
+              </Card>
+
+              <Button
+                title="Submit Order to HQ"
+                onPress={handleSubmitOrder}
+                size="large"
+                style={styles.submitButton}
+              />
+            </>
+          )}
+        </ScrollView>
       )}
     </View>
   );

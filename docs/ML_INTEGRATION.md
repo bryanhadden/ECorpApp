@@ -73,6 +73,7 @@ chmod +x setup.sh start.sh
 ```
 
 This will:
+
 - Create a Python virtual environment
 - Install TensorFlow and dependencies
 - Generate synthetic training data (~10,000+ records)
@@ -110,6 +111,7 @@ The app will automatically connect to the ML service at `http://localhost:5000` 
 **Purpose**: Predicts monthly sales trends and year-end projections
 
 **Features**:
+
 - Lookback window: 6 months
 - 2 LSTM layers (64 and 32 units)
 - Dropout layers for regularization
@@ -125,6 +127,7 @@ The app will automatically connect to the ML service at `http://localhost:5000` 
 **Purpose**: Predicts parts inventory needs based on sales volume and historical demand
 
 **Features**:
+
 - 3 hidden layers (64, 32, 16 units)
 - Dropout for overfitting prevention
 - Considers: current demand, sales volume, inventory level, seasonality, price
@@ -137,49 +140,64 @@ The app will automatically connect to the ML service at `http://localhost:5000` 
 All endpoints return JSON data.
 
 ### Health Check
+
 ```
 GET /health
 ```
+
 Returns service status and model availability.
 
 ### Analytics
+
 ```
 GET /api/analytics
 ```
+
 Returns company-wide analytics with ML predictions:
+
 - Total sales YTD and projected
 - Parts costs YTD and projected
 - Dealership performance metrics
 - Monthly sales trends (with predictions for future months)
 
 ### Sales Data
+
 ```
 GET /api/sales?limit=50
 ```
+
 Returns recent sales records. Limit parameter is optional (default: 50).
 
 ### Parts Inventory
+
 ```
 GET /api/parts
 ```
+
 Returns parts inventory with ML-predicted demand and recommended stock levels.
 
 ### Service Tickets
+
 ```
 GET /api/service-tickets?limit=50
 ```
+
 Returns service ticket records. Limit parameter is optional (default: 50).
 
 ### Orders
+
 ```
 GET /api/orders
 ```
+
 Returns parts orders with intelligent recommendations based on inventory levels.
 
 ### Metadata
+
 ```
 GET /api/metadata
 ```
+
 Returns system metadata, model status, and data statistics.
 
 ## React Native Integration
@@ -187,6 +205,7 @@ Returns system metadata, model status, and data statistics.
 ### Service Layer (`src/services/mlService.ts`)
 
 Provides functions to call ML API endpoints:
+
 - `checkMLServiceHealth()` - Verify service availability
 - `fetchAnalytics()` - Get analytics data
 - `fetchSales()` - Get sales data
@@ -208,6 +227,7 @@ const {orders, loading, usingML} = useOrders();
 ```
 
 **Features**:
+
 - Automatic loading states
 - Error handling with fallback to mock data
 - `usingML` flag indicates if using ML predictions or mock data
@@ -216,6 +236,7 @@ const {orders, loading, usingML} = useOrders();
 ### Dashboard Updates
 
 All dashboards now use ML hooks:
+
 - ✅ C-Suite Dashboard - Analytics with projections
 - ✅ Sales Dashboard - Real sales data
 - ✅ Warehouse Dashboard - Parts with demand predictions
@@ -230,28 +251,33 @@ All dashboards now use ML hooks:
 The `generate_training_data.py` script creates realistic synthetic data:
 
 **Sales History** (~5,000+ records)
+
 - Date range: 2023-01-01 to present
 - 5 dealerships across different locations
 - 5 vehicle models with varying prices
 - Seasonal trends and growth patterns
 
 **Parts Inventory** (~1,000+ records)
+
 - 8 different parts categories
 - Monthly inventory levels
 - Demand patterns based on sales volume
 - Price and category information
 
 **Service Tickets** (~2,000+ records)
+
 - 10 common service issues
 - Status tracking (open, in_progress, completed)
 - Customer and vehicle information
 - Completion time patterns
 
 **Monthly Aggregates**
+
 - Aggregated sales by month
 - Used for time-series forecasting
 
 **Dealership Metrics**
+
 - Per-dealership performance
 - Sales and parts cost tracking
 - Gross margin calculations
@@ -282,12 +308,14 @@ Models are automatically saved to `models/` directory.
 Options for deploying the ML service:
 
 1. **Heroku**
+
    ```bash
    heroku create ecorp-ml-service
    git subtree push --prefix ml-service heroku main
    ```
 
 2. **AWS/GCP/Azure**
+
    - Deploy as a containerized service using Docker
    - Use managed ML services (AWS SageMaker, GCP AI Platform)
 
@@ -300,9 +328,7 @@ Options for deploying the ML service:
 Update `src/services/mlService.ts`:
 
 ```typescript
-const ML_SERVICE_URL = __DEV__ 
-  ? 'http://localhost:5000'
-  : 'https://your-production-ml-service.com';
+const ML_SERVICE_URL = __DEV__ ? 'http://localhost:5000' : 'https://your-production-ml-service.com';
 ```
 
 ## Performance Considerations
@@ -317,6 +343,7 @@ const ML_SERVICE_URL = __DEV__
 ### Model Performance
 
 Monitor prediction accuracy over time:
+
 - Compare predictions vs actual results
 - Retrain models quarterly or when accuracy degrades
 - Track Mean Absolute Error (MAE) metrics
@@ -377,17 +404,20 @@ python train_models.py
 ## Technical Stack
 
 **Backend**:
+
 - Python 3.8+
 - TensorFlow 2.15
 - Flask 3.0
 - Pandas, NumPy, scikit-learn
 
 **Frontend**:
+
 - React Native
 - TypeScript
 - Custom hooks for data fetching
 
 **Models**:
+
 - LSTM for time-series forecasting
 - Feedforward neural networks for demand prediction
 - MinMax scaling for feature normalization
@@ -399,8 +429,8 @@ This ML integration is part of the E Corp App and follows the same license.
 ## Support
 
 For issues or questions:
+
 1. Check this documentation
 2. Review logs in `ml-service/`
 3. Check React Native console for frontend errors
 4. Review Flask logs for backend errors
-

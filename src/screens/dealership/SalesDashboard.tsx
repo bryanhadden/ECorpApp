@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useAuth} from '../../context/AuthContext';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -19,6 +27,15 @@ const SalesDashboard: React.FC = () => {
 
   const totalSales = userSales.reduce((sum, sale) => sum + sale.price, 0);
 
+  // // Debug logging
+  // console.log('Sales Dashboard Debug:', {
+  //   totalSalesCount: sales.length,
+  //   userSalesCount: userSales.length,
+  //   totalSalesValue: totalSales,
+  //   usingML,
+  //   userName: user?.name,
+  // });
+
   const handleLogout = () => {
     logout();
   };
@@ -29,6 +46,8 @@ const SalesDashboard: React.FC = () => {
       return;
     }
 
+    // Note: In a real app, this would be saved to backend
+    // For now, we'll just show success and reset form
     Alert.alert('Success', 'New sale recorded successfully!');
     setShowNewSale(false);
     setCustomerName('');
@@ -53,7 +72,7 @@ const SalesDashboard: React.FC = () => {
           <Text style={styles.location}>{user?.location}</Text>
         </View>
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
+          <Text style={styles.logoutText}>Go Back</Text>
         </TouchableOpacity>
       </View>
 
@@ -63,98 +82,103 @@ const SalesDashboard: React.FC = () => {
         </View>
       ) : (
         <ScrollView style={styles.content}>
-        <View style={styles.statsContainer}>
-          <Card style={styles.statCard}>
-            <Text style={styles.statValue}>{userSales.length}</Text>
-            <Text style={styles.statLabel}>Sales This Month</Text>
-          </Card>
-          <Card style={styles.statCard}>
-            <Text style={styles.statValue}>${(totalSales / 1000).toFixed(0)}K</Text>
-            <Text style={styles.statLabel}>Total Value</Text>
-          </Card>
-        </View>
+          <View style={styles.statsContainer}>
+            <Card style={styles.statCard}>
+              <Text style={styles.statValue}>{userSales.length}</Text>
+              <Text style={styles.statLabel}>Total Sales</Text>
+            </Card>
+            <Card style={styles.statCard}>
+              <Text style={styles.statValue}>${(totalSales / 1000).toFixed(0)}K</Text>
+              <Text style={styles.statLabel}>Total Value</Text>
+            </Card>
+          </View>
 
-        <View style={styles.actionsContainer}>
-          <Button
-            title="🚗 New Sale"
-            onPress={() => setShowNewSale(!showNewSale)}
-            size="large"
-            variant={showNewSale ? 'secondary' : 'primary'}
-          />
-        </View>
-
-        {showNewSale && (
-          <Card style={styles.newSaleCard}>
-            <Text style={styles.cardTitle}>Record New Sale</Text>
-
-            <Input
-              label="Customer Name"
-              placeholder="Enter customer name"
-              value={customerName}
-              onChangeText={setCustomerName}
+          <View style={styles.actionsContainer}>
+            <Button
+              title="🚗 New Sale"
+              onPress={() => setShowNewSale(!showNewSale)}
+              size="large"
+              variant={showNewSale ? 'secondary' : 'primary'}
             />
+          </View>
 
-            <Text style={styles.inputLabel}>Select Model</Text>
-            <View style={styles.modelsContainer}>
-              {vehicles.map(vehicle => (
-                <TouchableOpacity
-                  key={vehicle.name}
-                  onPress={() => {
-                    setModel(vehicle.name);
-                    setPrice(vehicle.price.toString());
-                  }}
-                  activeOpacity={0.7}>
-                  <Card
-                    style={[styles.modelCard, model === vehicle.name && styles.modelCardSelected]}>
-                    <Text style={styles.modelName}>{vehicle.name}</Text>
-                    <Text style={styles.modelPrice}>${vehicle.price.toLocaleString()}</Text>
-                  </Card>
-                </TouchableOpacity>
-              ))}
-            </View>
+          {showNewSale && (
+            <Card style={styles.newSaleCard}>
+              <Text style={styles.cardTitle}>Record New Sale</Text>
 
-            <Input
-              label="Sale Price"
-              placeholder="Enter final price"
-              value={price}
-              onChangeText={setPrice}
-              keyboardType="numeric"
-            />
+              <Input
+                label="Customer Name"
+                placeholder="Enter customer name"
+                value={customerName}
+                onChangeText={setCustomerName}
+              />
 
-            <Button title="Record Sale" onPress={handleSubmitSale} size="large" />
-          </Card>
-        )}
+              <Text style={styles.inputLabel}>Select Model</Text>
+              <View style={styles.modelsContainer}>
+                {vehicles.map(vehicle => (
+                  <TouchableOpacity
+                    key={vehicle.name}
+                    onPress={() => {
+                      setModel(vehicle.name);
+                      setPrice(vehicle.price.toString());
+                    }}
+                    activeOpacity={0.7}>
+                    <Card
+                      style={[
+                        styles.modelCard,
+                        model === vehicle.name && styles.modelCardSelected,
+                      ]}>
+                      <Text style={styles.modelName}>{vehicle.name}</Text>
+                      <Text style={styles.modelPrice}>${vehicle.price.toLocaleString()}</Text>
+                    </Card>
+                  </TouchableOpacity>
+                ))}
+              </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recent Sales</Text>
-          {userSales.length > 0 ? (
-            userSales.map(sale => (
-              <Card key={sale.id} style={styles.saleCard}>
-                <View style={styles.saleHeader}>
-                  <Text style={styles.saleCustomer}>{sale.customerName}</Text>
-                  <Text style={styles.salePrice}>${sale.price.toLocaleString()}</Text>
-                </View>
-                <Text style={styles.saleModel}>🚗 {sale.model}</Text>
-                <Text style={styles.saleDate}>{sale.date.toLocaleDateString()}</Text>
-              </Card>
-            ))
-          ) : (
-            <Card style={styles.emptyCard}>
-              <Text style={styles.emptyText}>No sales recorded yet</Text>
+              <Input
+                label="Sale Price"
+                placeholder="Enter final price"
+                value={price}
+                onChangeText={setPrice}
+                keyboardType="numeric"
+              />
+
+              <Button title="Record Sale" onPress={handleSubmitSale} size="large" />
             </Card>
           )}
-        </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Vehicle Lineup</Text>
-          {vehicles.map(vehicle => (
-            <Card key={vehicle.name} style={styles.vehicleCard}>
-              <Text style={styles.vehicleName}>🚗 {vehicle.name}</Text>
-              <Text style={styles.vehiclePrice}>Starting at ${vehicle.price.toLocaleString()}</Text>
-            </Card>
-          ))}
-        </View>
-      </ScrollView>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Recent Sales</Text>
+            {userSales.length > 0 ? (
+              userSales.map(sale => (
+                <Card key={sale.id} style={styles.saleCard}>
+                  <View style={styles.saleHeader}>
+                    <Text style={styles.saleCustomer}>{sale.customerName}</Text>
+                    <Text style={styles.salePrice}>${sale.price.toLocaleString()}</Text>
+                  </View>
+                  <Text style={styles.saleModel}>🚗 {sale.model}</Text>
+                  <Text style={styles.saleDate}>{sale.date.toLocaleDateString()}</Text>
+                </Card>
+              ))
+            ) : (
+              <Card style={styles.emptyCard}>
+                <Text style={styles.emptyText}>No sales recorded yet</Text>
+              </Card>
+            )}
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Vehicle Lineup</Text>
+            {vehicles.map(vehicle => (
+              <Card key={vehicle.name} style={styles.vehicleCard}>
+                <Text style={styles.vehicleName}>🚗 {vehicle.name}</Text>
+                <Text style={styles.vehiclePrice}>
+                  Starting at ${vehicle.price.toLocaleString()}
+                </Text>
+              </Card>
+            ))}
+          </View>
+        </ScrollView>
       )}
     </View>
   );
